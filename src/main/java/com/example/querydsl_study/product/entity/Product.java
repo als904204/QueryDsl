@@ -1,4 +1,4 @@
-package com.example.querydsl_study.user.entity;
+package com.example.querydsl_study.product.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,31 +11,32 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name = "tb_user")
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // new User() X
+
 @Entity
+@Table(name = "tb_product")
 @Getter
-public class User {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "name")
     private String name;
 
-    private String address;
+    @Column(name = "price")
+    private int price;
 
-    @Column(unique = true)
-    private String email;
+    @Column(name = "category")
+    private String category;
 
 
     @Builder
-    public User(String name, String address, String email) {
+    public Product(String name, int price, String category) {
         this.name = name;
-        this.address = address;
-        this.email = email;
+        this.price = price;
+        this.category = category;
     }
-
-
 }
