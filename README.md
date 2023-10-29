@@ -1,5 +1,20 @@
 # QueryDsl
 
+### application.yml
+```java
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/db_demo?allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: pwd
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+```
+
 ## SpringBoot 3.x 버전 이상 설정
 
 ##  build.gradle
