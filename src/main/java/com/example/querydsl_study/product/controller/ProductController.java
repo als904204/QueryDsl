@@ -21,7 +21,7 @@ public class ProductController {
     @GetMapping("/api/v1/product")
     public List<GetProductResponse> getProductList(@Nullable @RequestParam("category") String category) {
 
-        return productService.getProductList(category);
+        return productService.getProductListV1(category);
     }
 
 }
