@@ -3,6 +3,7 @@ package com.example.querydsl_study.product.service;
 import com.example.querydsl_study.product.dto.GetProductResponse;
 import com.example.querydsl_study.product.repository.ProductRepository;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class ProductService {
 
         List<GetProductResponse> response;
 
-        if (category.isEmpty()) {
+        if (Objects.isNull(category)) {
             response = productRepository.findAll().stream()
                 .map(m -> GetProductResponse.builder()
                     .name(m.getName())
