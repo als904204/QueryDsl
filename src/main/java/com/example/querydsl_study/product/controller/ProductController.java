@@ -2,6 +2,7 @@ package com.example.querydsl_study.product.controller;
 
 
 import com.example.querydsl_study.product.dto.GetProductResponse;
+import com.example.querydsl_study.product.dto.ProductSortByCondition;
 import com.example.querydsl_study.product.service.ProductService;
 import io.micrometer.common.lang.Nullable;
 import java.util.List;
@@ -39,6 +40,15 @@ public class ProductController {
         @RequestParam("page") int page,
         @RequestParam("size") int size) {
         // 페이징 처리 2: 가격 기준 내림차순 정렬된 데이터에 대한 페이징 처리
-        return productService.getProductListWithPageAndSortPriceDesc(category,page, size);
+        return productService.getProductListV3WithPageAndSortPriceDesc(category,page, size);
+    }
+
+    @GetMapping("/api/v4/product")
+    public List<GetProductResponse> getProductListWithV4PageAndSortPriceDesc(
+        @Nullable @RequestParam(value = "category", required = false) String category,
+        @Nullable @RequestParam( required = false) ProductSortByCondition condition,
+        @RequestParam("page") int page,
+        @RequestParam("size") int size) {
+        return productService.getProductListV4WithPageAndSortByCondition(category,condition,page, size);
     }
 }

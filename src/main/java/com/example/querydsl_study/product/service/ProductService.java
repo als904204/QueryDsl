@@ -1,6 +1,7 @@
 package com.example.querydsl_study.product.service;
 
 import com.example.querydsl_study.product.dto.GetProductResponse;
+import com.example.querydsl_study.product.dto.ProductSortByCondition;
 import com.example.querydsl_study.product.repository.ProductRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -38,11 +39,32 @@ public class ProductService {
     }
 
     // V3 : 카테코리 + 페이징 + 가격 내림차순 정렬로 상품을 조회한다
-    public List<GetProductResponse> getProductListWithPageAndSortPriceDesc(String category, int page, int size) {
+    public List<GetProductResponse> getProductListV3WithPageAndSortPriceDesc(String category, int page, int size) {
 
         PageRequest pageRequest = PageRequest.of(page, size);
 
         return productRepository.getProductListV3WithPageAndSortPriceDesc(category, pageRequest.getOffset(),
+                pageRequest.getPageSize())
+            .stream()
+            .map(m ->
+                GetProductResponse.builder()
+                    .name(m.getName())
+                    .price(m.getPrice())
+                    .category(m.getCategory())
+                    .build())
+            .toList();
+    }
+
+    // V4 : 카테코리 + 페이징 + 상품 조건별(name,price,id) 별로 내림차순 정렬
+    public List<GetProductResponse> getProductListV4WithPageAndSortByCondition(
+        String category,
+        ProductSortByCondition condition,
+        int page,
+        int size) {
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        return productRepository.getProductListV4WithPageAndSortByCondition(category,condition, pageRequest.getOffset(),
                 pageRequest.getPageSize())
             .stream()
             .map(m ->
