@@ -1,9 +1,13 @@
 package com.example.querydsl_study.product.repository;
 
+import static com.example.querydsl_study.product.entity.QProduct.product;
+
 import com.example.querydsl_study.product.entity.Product;
 import com.example.querydsl_study.product.entity.QProduct;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -21,17 +25,30 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
         // TODO : 프로젝션을 이용하면 원하는 컬럼 값만 리턴 받을 수 있다
         return jpaQueryFactory.select(product)
             .from(product)
-            .where(product.category.eq(category))
+            .where(eqCategory(category))
             .fetch(); // 위에서 준비한 쿼리문을 DB 에 날려라
     }
 
     @Override
-    public List<Product> getProductListWithPage(long offset, int pageSize) {
-        return null;
+    public List<Product> getProductListWithPage(String category,long offset, int pageSize) {
+        QProduct product = QProduct.product;
+
+        return jpaQueryFactory.selectFrom(product)
+            .where(eqCategory(category))
+            .offset(offset)
+            .limit(pageSize)
+            .fetch();
     }
 
     @Override
     public List<Product> getProductListWithPageAndSortPriceDesc(long offset, int pageSize) {
         return null;
+    }
+
+    private BooleanExpression eqCategory(String category) {
+        if (Objects.isNull(category)) {
+            return null;
+        }
+        return product.category.eq(category);
     }
 }

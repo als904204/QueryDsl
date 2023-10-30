@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface ProductRepositoryCustom{
 
     List<Product> getProductListV1(String category);
-    List<Product> getProductListWithPage(long offset, int pageSize);
+    List<Product> getProductListWithPage(String category,long offset, int pageSize);
     List<Product> getProductListWithPageAndSortPriceDesc(long offset, int pageSize);
 }

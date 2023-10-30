@@ -17,11 +17,20 @@ public class ProductController {
 
     private final ProductService productService;
 
-
+    // 모든 데이터 조회
     @GetMapping("/api/v1/product")
     public List<GetProductResponse> getProductList(@Nullable @RequestParam("category") String category) {
-
         return productService.getProductListV1(category);
     }
 
+    // 저장된 데이터 페이징 조회
+    @GetMapping("/api/v2/product")
+    public List<GetProductResponse> getProductListV2WithPage(
+        @Nullable @RequestParam("category") String category,
+        @RequestParam("page") int page,
+        @RequestParam("size") int size
+    ){
+
+        return productService.getProductListV2WithPage(category,page,size);
+    }
 }
