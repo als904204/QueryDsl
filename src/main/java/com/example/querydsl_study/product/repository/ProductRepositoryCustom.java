@@ -10,5 +10,5 @@ public interface ProductRepositoryCustom{
 
     List<Product> getProductListV1(String category);
     List<Product> getProductListWithPage(String category,long offset, int pageSize);
-    List<Product> getProductListWithPageAndSortPriceDesc(long offset, int pageSize);
+    List<Product> getProductListWithPageAndSortPriceDesc(String category, long offset, int pageSize);
 }

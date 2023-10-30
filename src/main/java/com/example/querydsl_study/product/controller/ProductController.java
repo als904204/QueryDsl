@@ -30,7 +30,15 @@ public class ProductController {
         @RequestParam("page") int page,
         @RequestParam("size") int size
     ){
-
         return productService.getProductListV2WithPage(category,page,size);
+    }
+
+    @GetMapping("/api/v3/product")
+    public List<GetProductResponse> getProductListWithV3PageAndSortPriceDesc(
+        @Nullable @RequestParam("category") String category,
+        @RequestParam("page") int page,
+        @RequestParam("size") int size) {
+        // 페이징 처리 2: 가격 기준 내림차순 정렬된 데이터에 대한 페이징 처리
+        return productService.getProductListWithPageAndSortPriceDesc(category,page, size);
     }
 }

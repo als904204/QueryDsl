@@ -38,4 +38,20 @@ public class ProductService {
                 .build())
             .toList();
     }
+
+    public List<GetProductResponse> getProductListWithPageAndSortPriceDesc(String category, int page, int size) {
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        return productRepository.getProductListWithPageAndSortPriceDesc(category, pageRequest.getOffset(),
+                pageRequest.getPageSize())
+            .stream()
+            .map(m ->
+                GetProductResponse.builder()
+                    .name(m.getName())
+                    .price(m.getPrice())
+                    .category(m.getCategory())
+                    .build())
+            .toList();
+    }
 }

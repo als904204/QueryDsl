@@ -4,6 +4,8 @@ import static com.example.querydsl_study.product.entity.QProduct.product;
 
 import com.example.querydsl_study.product.entity.Product;
 import com.example.querydsl_study.product.entity.QProduct;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -41,8 +43,17 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
     }
 
     @Override
-    public List<Product> getProductListWithPageAndSortPriceDesc(long offset, int pageSize) {
-        return null;
+    public List<Product> getProductListWithPageAndSortPriceDesc(String category, long offset, int pageSize) {
+        QProduct product = QProduct.product;
+
+        OrderSpecifier<?> orderSpecifier = new OrderSpecifier<>(Order.DESC, product.price);
+
+        return jpaQueryFactory.selectFrom(product)
+            .where(eqCategory(category))
+            .orderBy(orderSpecifier)
+            .offset(offset)
+            .limit(pageSize)
+            .fetch();
     }
 
     private BooleanExpression eqCategory(String category) {
