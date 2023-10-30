@@ -32,7 +32,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
     }
 
     @Override
-    public List<Product> getProductListWithPage(String category,long offset, int pageSize) {
+    public List<Product> getProductListV2WithPage(String category,long offset, int pageSize) {
         QProduct product = QProduct.product;
 
         return jpaQueryFactory.selectFrom(product)
@@ -43,7 +43,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
     }
 
     @Override
-    public List<Product> getProductListWithPageAndSortPriceDesc(String category, long offset, int pageSize) {
+    public List<Product> getProductListV3WithPageAndSortPriceDesc(String category, long offset, int pageSize) {
         QProduct product = QProduct.product;
 
         OrderSpecifier<?> orderSpecifier = new OrderSpecifier<>(Order.DESC, product.price);

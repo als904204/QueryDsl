@@ -3,7 +3,6 @@ package com.example.querydsl_study.product.service;
 import com.example.querydsl_study.product.dto.GetProductResponse;
 import com.example.querydsl_study.product.repository.ProductRepository;
 import java.util.List;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -15,9 +14,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-
-    // 1. category 가 없으면 전체 조회
-    // 2. category 가 있으면 조건 조회
+    // V1 : 카테코리별로 상품을 조회한다.
     public List<GetProductResponse> getProductListV1(String category) {
         return productRepository.getProductListV1(category).stream()
             .map(m -> GetProductResponse.builder()
@@ -28,9 +25,10 @@ public class ProductService {
             .toList();
     }
 
+    // V2 : 카테코리 + 페이징으로 상품을 조회한다
     public List<GetProductResponse> getProductListV2WithPage(String category,int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        return productRepository.getProductListWithPage(category,pageRequest.getOffset(),pageRequest.getPageSize()).stream()
+        return productRepository.getProductListV2WithPage(category,pageRequest.getOffset(),pageRequest.getPageSize()).stream()
             .map(m -> GetProductResponse.builder()
                 .name(m.getName())
                 .price(m.getPrice())
@@ -39,11 +37,12 @@ public class ProductService {
             .toList();
     }
 
+    // V3 : 카테코리 + 페이징 + 가격 내림차순 정렬로 상품을 조회한다
     public List<GetProductResponse> getProductListWithPageAndSortPriceDesc(String category, int page, int size) {
 
         PageRequest pageRequest = PageRequest.of(page, size);
 
-        return productRepository.getProductListWithPageAndSortPriceDesc(category, pageRequest.getOffset(),
+        return productRepository.getProductListV3WithPageAndSortPriceDesc(category, pageRequest.getOffset(),
                 pageRequest.getPageSize())
             .stream()
             .map(m ->
