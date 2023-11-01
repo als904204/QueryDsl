@@ -1,105 +1,115 @@
-#
-# create database if not exists db_demo;
-# create table IF NOT EXISTS db_demo.tb_user (
-#                                                id      bigint            auto_increment      primary key ,
-#                                                name    varchar(30)     not null ,
-#     address varchar(200)    null ,
-#     email   varchar(40)     not null    unique
-#     );
-#
-# create table IF NOT EXISTS db_demo.tb_product (
-#                                                   id          bigint          auto_increment      primary key ,
-#                                                   name        varchar(50)     not null ,
-#     price       int             not null ,
-#     category    varchar(30)     not null
-#     );
-#
-# create table IF NOT EXISTS db_demo.tb_order (
-#                                                 order_id    bigint      auto_increment  primary key,
-#                                                 user_id     bigint      not null ,
-#                                                 product_id  bigint      not null ,
-#
-#                                                 constraint fk_tb_user_tb_order foreign key (user_id) references db_demo.tb_user(id),
-#     constraint fk_tb_product_tb_order foreign key (product_id) references db_demo.tb_product(id)
-#     );
-#
-# insert into db_demo.tb_user(id, name, address, email) values (100, '데모!', '주소1', 'email');
-#
-# insert into db_demo.tb_product(name, price, category) VALUES ('책1', 30000, '도서');
-# insert into db_demo.tb_product(name, price, category) VALUES ('책2', 15000, '도서');
-# insert into db_demo.tb_product(name, price, category) VALUES ('책3', 28000, '도서');
-# insert into db_demo.tb_product(name, price, category) VALUES ('책4', 12500, '도서');
-# insert into db_demo.tb_product(name, price, category) VALUES ('사과', 2500, '과일');
-# insert into db_demo.tb_product(name, price, category) VALUES ('배', 2200, '과일');
-# insert into db_demo.tb_product(name, price, category) VALUES ('귤', 1500, '과일');
-# insert into db_demo.tb_product(name, price, category) VALUES ('수박', 13500, '과일');
-# insert into db_demo.tb_product(name, price, category) VALUES ('노트북', 1000500, '전자기기');
-# insert into db_demo.tb_product(name, price, category) VALUES ('컴퓨터', 1842000, '전자기기');
-# insert into db_demo.tb_product(name, price, category) VALUES ('에어팟', 200000, '전자기기');
-# insert into db_demo.tb_product(name, price, category) VALUES ('버즈', 150000, '전자기기');
-# insert into db_demo.tb_product(name, price, category) VALUES ('물', 800, '음료');
-# insert into db_demo.tb_product(name, price, category) VALUES ('음료수', 1200, '음료');
-# insert into db_demo.tb_product(name, price, category) VALUES ('썬크림', 10000, '화장품');
-# insert into db_demo.tb_product(name, price, category) VALUES ('바디로션', 15000, '화장품');
-# insert into db_demo.tb_product(name, price, category) VALUES ('폼클렌징', 11000, '화장품');
-# insert into db_demo.tb_product(name, price, category) VALUES ('슬리퍼', 5000, '신발');
-# insert into db_demo.tb_product(name, price, category) VALUES ('운동화', 150000, '신발');
-# insert into db_demo.tb_product(name, price, category) VALUES ('구두', 230000, '신발');
-# insert into db_demo.tb_product(name, price, category) VALUES ('힐', 150000, '신발');
-#
-# insert into db_demo.tb_order(user_id, product_id) VALUES (100, 1);
-# insert into db_demo.tb_order(user_id, product_id) VALUES (100, 2);
-# insert into db_demo.tb_order(user_id, product_id) VALUES (100, 3);
-# insert into db_demo.tb_order(user_id, product_id) VALUES (100, 4);
-# insert into db_demo.tb_order(user_id, product_id) VALUES (100, 5);
-# insert into db_demo.tb_order(user_id, product_id) VALUES (100, 6);
-# insert into db_demo.tb_order(user_id, product_id) VALUES (100, 7);
-
-
-create database if not exists queryDsl;
-
-create table IF NOT EXISTS user (
-                                    id      bigint            auto_increment      primary key,
-                                    name    varchar(30)     not null,
-                                    address varchar(200)    null,
-                                    email   varchar(40)     not null    unique
+CREATE TABLE IF NOT EXISTS user (
+                                    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                    name VARCHAR(255) NOT NULL,
+                                    address VARCHAR(255),
+                                    email VARCHAR(255) UNIQUE NOT NULL
 );
 
-create table IF NOT EXISTS product (
-                                       id          bigint          auto_increment      primary key,
-                                       name        varchar(50)     not null,
-                                       price       int             not null,
-                                       category    varchar(30)     not null
+CREATE TABLE IF NOT EXISTS product (
+                                       id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                       name VARCHAR(255) NOT NULL,
+                                       price INT NOT NULL,
+                                       category VARCHAR(255) NOT NULL
 );
 
-create table IF NOT EXISTS order (
-                                                order_id    bigint      auto_increment  primary key,
-                                                user_id     bigint      not null ,
-                                                product_id  bigint      not null ,
-
-                                                constraint fk_tb_user_tb_order foreign key (user_id) references db_demo.tb_user(id),
-    constraint fk_tb_product_tb_order foreign key (product_id) references queryDsl.product(id)
+CREATE TABLE IF NOT EXISTS `order` (
+                                       id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                       user_id BIGINT NOT NULL,
+                                       product_id BIGINT NOT NULL,
+                                       FOREIGN KEY (user_id) REFERENCES user(id),
+                                       FOREIGN KEY (product_id) REFERENCES product(id)
 );
 
-insert into user(id, name, address, email) values (1, '신두형', '상암월드컵 경기장', 'Ronaldo@test.siu');
+INSERT INTO user (name, address, email) VALUES ('침팬지', '욱욱악악', 'email1@example.com');
+INSERT INTO user (name, address, email) VALUES ('고릴라', '끾끾', 'go@example.com');
 
 -- 한식
-insert into product(name, price, category) VALUES ('불고기', 15000, '한식');
-insert into product(name, price, category) VALUES ('김치찌개', 8000, '한식');
-insert into product(name, price, category) VALUES ('비빔밥', 9000, '한식');
+INSERT INTO product (name, price, category) VALUES ('불고기', 15000, '한식');
+INSERT INTO product (name, price, category) VALUES ('김치찌개', 8000, '한식');
+INSERT INTO product (name, price, category) VALUES ('비빔밥', 9000, '한식');
+INSERT INTO product (name, price, category) VALUES ('갈비탕', 16000, '한식');
+INSERT INTO product (name, price, category) VALUES ('떡볶이', 7000, '한식');
+INSERT INTO product (name, price, category) VALUES ('냉면', 8500, '한식');
+INSERT INTO product (name, price, category) VALUES ('삼계탕', 17000, '한식');
+INSERT INTO product (name, price, category) VALUES ('부대찌개', 8500, '한식');
+INSERT INTO product (name, price, category) VALUES ('된장찌개', 7500, '한식');
+INSERT INTO product (name, price, category) VALUES ('순대국', 7000, '한식');
+INSERT INTO product (name, price, category) VALUES ('곰탕', 18000, '한식');
+INSERT INTO product (name, price, category) VALUES ('뼈해장국', 9000, '한식');
+INSERT INTO product (name, price, category) VALUES ('콩나물국밥', 8500, '한식');
+INSERT INTO product (name, price, category) VALUES ('돌솥비빔밥', 12000, '한식');
+INSERT INTO product (name, price, category) VALUES ('해물파전', 10000, '한식');
+INSERT INTO product (name, price, category) VALUES ('무생채', 6500, '한식');
+INSERT INTO product (name, price, category) VALUES ('야채전', 7500, '한식');
+INSERT INTO product (name, price, category) VALUES ('계란찜', 6000, '한식');
+INSERT INTO product (name, price, category) VALUES ('오징어볶음', 11000, '한식');
+INSERT INTO product (name, price, category) VALUES ('된장찌개', 7500, '한식');
+INSERT INTO product (name, price, category) VALUES ('순대국', 7000, '한식');
+INSERT INTO product (name, price, category) VALUES ('곰탕', 18000, '한식');
+INSERT INTO product (name, price, category) VALUES ('뼈해장국', 9000, '한식');
+INSERT INTO product (name, price, category) VALUES ('콩나물국밥', 8500, '한식');
+INSERT INTO product (name, price, category) VALUES ('돌솥비빔밥', 12000, '한식');
+INSERT INTO product (name, price, category) VALUES ('해물파전', 10000, '한식');
+INSERT INTO product (name, price, category) VALUES ('무생채', 6500, '한식');
+INSERT INTO product (name, price, category) VALUES ('야채전', 7500, '한식');
+INSERT INTO product (name, price, category) VALUES ('계란찜', 6000, '한식');
+INSERT INTO product (name, price, category) VALUES ('오징어볶음', 11000, '한식');
+
 
 -- 중식
-insert into product(name, price, category) VALUES ('짜장면', 7000, '중식');
-insert into product(name, price, category) VALUES ('짬뽕', 8000, '중식');
-insert into product(name, price, category) VALUES ('탕수육', 15000, '중식');
+INSERT INTO product (name, price, category) VALUES ('짜장면', 5000, '중식');
+INSERT INTO product (name, price, category) VALUES ('짬뽕', 6000, '중식');
+INSERT INTO product (name, price, category) VALUES ('탕수육', 12000, '중식');
+INSERT INTO product (name, price, category) VALUES ('양장피', 7000, '중식');
+INSERT INTO product (name, price, category) VALUES ('마파두부', 8000, '중식');
+INSERT INTO product (name, price, category) VALUES ('군만두', 5500, '중식');
+INSERT INTO product (name, price, category) VALUES ('사천짜장', 7500, '중식');
+INSERT INTO product (name, price, category) VALUES ('고추잡채', 8500, '중식');
+INSERT INTO product (name, price, category) VALUES ('갈비탕', 15000, '중식');
+INSERT INTO product (name, price, category) VALUES ('유린기', 11000, '중식');
+INSERT INTO product (name, price, category) VALUES ('해물짜장', 12000, '중식');
+INSERT INTO product (name, price, category) VALUES ('깐풍기', 10000, '중식');
+INSERT INTO product (name, price, category) VALUES ('마라탕', 13000, '중식');
+INSERT INTO product (name, price, category) VALUES ('짜장밥', 9000, '중식');
+INSERT INTO product (name, price, category) VALUES ('짬뽕밥', 10000, '중식');
+INSERT INTO product (name, price, category) VALUES ('꿔바로우', 12000, '중식');
+INSERT INTO product (name, price, category) VALUES ('찹쌀탕수육', 14000, '중식');
+INSERT INTO product (name, price, category) VALUES ('마라샹궈', 11000, '중식');
+INSERT INTO product (name, price, category) VALUES ('팔보채', 9000, '중식');
+INSERT INTO product (name, price, category) VALUES ('잡채밥', 9500, '중식');
 
 -- 일식
-insert into product(name, price, category) VALUES ('초밥', 20000, '일식');
-insert into product(name, price, category) VALUES ('라멘', 9000, '일식');
-insert into product(name, price, category) VALUES ('돈까스', 12000, '일식');
+INSERT INTO product (name, price, category) VALUES ('초밥', 20000, '일식');
+INSERT INTO product (name, price, category) VALUES ('라멘', 8000, '일식');
+INSERT INTO product (name, price, category) VALUES ('돈까스', 10000, '일식');
+INSERT INTO product (name, price, category) VALUES ('우동', 7500, '일식');
+INSERT INTO product (name, price, category) VALUES ('사시미', 18000, '일식');
+INSERT INTO product (name, price, category) VALUES ('텐동', 8500, '일식');
+INSERT INTO product (name, price, category) VALUES ('야끼소바', 9000, '일식');
+INSERT INTO product (name, price, category) VALUES ('스시세트', 22000, '일식');
+INSERT INTO product (name, price, category) VALUES ('규동', 11000, '일식');
+INSERT INTO product (name, price, category) VALUES ('데리야끼', 12000, '일식');
+INSERT INTO product (name, price, category) VALUES ('오야끼', 7500, '일식');
+INSERT INTO product (name, price, category) VALUES ('사케동', 13000, '일식');
+INSERT INTO product (name, price, category) VALUES ('테리야키', 9000, '일식');
+INSERT INTO product (name, price, category) VALUES ('참치덮밥', 9500, '일식');
+INSERT INTO product (name, price, category) VALUES ('연어덮밥', 10000, '일식');
+INSERT INTO product (name, price, category) VALUES ('스시롤', 12000, '일식');
+INSERT INTO product (name, price, category) VALUES ('새우튀김', 8500, '일식');
+INSERT INTO product (name, price, category) VALUES ('카레라이스', 11000, '일식');
+INSERT INTO product (name, price, category) VALUES ('와카메샐러드', 7000, '일식');
+INSERT INTO product (name, price, category) VALUES ('마끼', 13000, '일식');
+INSERT INTO product (name, price, category) VALUES ('유동', 9000, '일식');
 
-insert into order(user_id, product_id) VALUES (1, 1);
-insert into order(user_id, product_id) VALUES (1, 2);
-insert into order(user_id, product_id) VALUES (1, 4);
-insert into order(user_id, product_id) VALUES (1, 5);
-insert into order(user_id, product_id) VALUES (1, 7);
+
+INSERT INTO `tb_order` (user_id, product_id) VALUES (1, 1);
+INSERT INTO `tb_order` (user_id, product_id) VALUES (1, 2);
+INSERT INTO `tb_order` (user_id, product_id) VALUES (1, 3);
+INSERT INTO `tb_order` (user_id, product_id) VALUES (1, 20);
+INSERT INTO `tb_order` (user_id, product_id) VALUES (1, 50);
+INSERT INTO `tb_order` (user_id, product_id) VALUES (1, 12);
+INSERT INTO `tb_order` (user_id, product_id) VALUES (1, 22);
+INSERT INTO `tb_order` (user_id, product_id) VALUES (1, 32);
+INSERT INTO `tb_order` (user_id, product_id) VALUES (1, 11);
+INSERT INTO `tb_order` (user_id, product_id) VALUES (1, 6);
+
