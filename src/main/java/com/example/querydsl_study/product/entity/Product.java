@@ -13,9 +13,7 @@ import lombok.NoArgsConstructor;
 
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // new User() X
-
 @Entity
-@Table(name = "tb_product")
 @Getter
 public class Product {
 
