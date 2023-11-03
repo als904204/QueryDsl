@@ -15,7 +15,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    // V1 : 카테코리별로 상품을 조회한다.
+    // V1 : 모든 상품 조회 OR 카테코리에 해당하는 모든 상품 조회 (객체 자체 조회)
     public List<GetProductResponse> getProductListV1(String category) {
         return productRepository.getProductListV1(category).stream()
             .map(m -> GetProductResponse.builder()
@@ -24,6 +24,11 @@ public class ProductService {
                 .category(m.getCategory())
                 .build())
             .toList();
+    }
+
+    // V2 : 모든 상품 조회 OR 카테코리에 해당하는 모든 상품 조회 (필요한 컬럼만 조회)
+    public List<GetProductResponse> getProductListV2(String category) {
+        return productRepository.getProductListV2(category);
     }
 
     // V2 : 카테코리 + 페이징으로 상품을 조회한다

@@ -7,11 +7,11 @@ import lombok.Getter;
 public class GetProductResponse {
 
     private String name;
-    private int price;
+    private Long price;
     private String category;
 
     @Builder
-    public GetProductResponse(String name, int price, String category) {
+    public GetProductResponse(String name, Long price, String category) {
         this.name = name;
         this.price = price;
         this.category = category;

@@ -2,12 +2,15 @@ package com.example.querydsl_study.product.repository;
 
 import static com.example.querydsl_study.product.entity.QProduct.product;
 
+import com.example.querydsl_study.product.dto.GetProductResponse;
 import com.example.querydsl_study.product.dto.ProductSortByCondition;
 import com.example.querydsl_study.product.entity.Product;
 import com.example.querydsl_study.product.entity.QProduct;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,16 +24,47 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
 
     private final JPAQueryFactory jpaQueryFactory;
 
+    /**
+     * SELECT *
+     * FROM product
+     * WHERE product.category = '?'
+     */
     @Override
     public List<Product> getProductListV1(String category) {
         QProduct product = QProduct.product;
 
         // 현재는 product 의 모든 컬럼을 조회한다
-        // TODO : 프로젝션을 이용하면 원하는 컬럼 값만 리턴 받을 수 있다
         return jpaQueryFactory.select(product)
             .from(product)
             .where(eqCategory(category))
             .fetch(); // 위에서 준비한 쿼리문을 DB 에 날려라
+    }
+
+    /**
+     * SELECT *
+     * FROM product
+     * WHERE product.category = '?'
+     */
+    @Override
+    public List<GetProductResponse> getProductListV2(String category) {
+        QProduct product = QProduct.product;
+
+        JPAQuery<Tuple> query = jpaQueryFactory.select(
+                product.name,
+                product.price,
+                product.category
+            )
+            .from(product)
+            .where(eqCategory(category));
+
+        return query.fetch().stream()
+            .map(tuple -> GetProductResponse.builder()
+                .name(tuple.get(product.name))
+                .price(tuple.get(product.price))
+                .category(tuple.get(product.category))
+                .build())
+            .toList();
+
     }
 
     @Override
