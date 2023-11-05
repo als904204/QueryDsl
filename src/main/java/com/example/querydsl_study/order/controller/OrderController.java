@@ -25,9 +25,4 @@ public class OrderController {
         List<OrderListResponseDto> orderListByUserID = orderService.getOrderListByUserIDV2(id);
         return ResponseEntity.ok(orderListByUserID);
     }
-    @GetMapping("/api/v3/order/{id}")
-    public ResponseEntity<List<OrderListResponseDto>> getOrderListByUserIdV3(@PathVariable Long id) {
-        List<OrderListResponseDto> orderListByUserID = orderService.getOrderListByUserIDV2(id);
-        return ResponseEntity.ok(orderListByUserID);
-    }
 }
