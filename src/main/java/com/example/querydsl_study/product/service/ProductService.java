@@ -2,13 +2,17 @@ package com.example.querydsl_study.product.service;
 
 import com.example.querydsl_study.product.dto.GetProductResponse;
 import com.example.querydsl_study.product.dto.ProductSortByCondition;
+import com.example.querydsl_study.product.entity.Product;
 import com.example.querydsl_study.product.repository.ProductRepository;
+import jakarta.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class ProductService {
@@ -31,7 +35,41 @@ public class ProductService {
         return productRepository.getProductListV2(category);
     }
 
-    // V2 : 카테코리 + 페이징으로 상품을 조회한다
+//    @PostConstruct
+    public void testDats() {
+        log.info("testDats()");
+        List<Product> products = new ArrayList<>();
+        for (int i = 0; i < 100000; i++) {
+            products.add(new Product("Product " + i, 1L, "Category"));
+        }
+        log.info("products.size={}",products.size());
+
+        productRepository.saveAll(products);
+    }
+
+
+    @PostConstruct
+    public void test() {
+        String category = "Category";
+
+        log.info("V1 실행");
+        long startTimeV1 = System.currentTimeMillis();
+        getProductListV1(category);
+        long endTimeV1 = System.currentTimeMillis();
+        System.out.println("V1 Method Time: " + (endTimeV1 - startTimeV1) + "ms");
+
+        System.out.println("==============");
+
+        log.info("V2 실행");
+        long startTimeV2 = System.currentTimeMillis();
+        getProductListV2(category);
+        long endTimeV2 = System.currentTimeMillis();
+        System.out.println("V2 Method Time: " + (endTimeV2 - startTimeV2) + "ms");
+    }
+
+
+
+    // V3 : 카테코리 + 페이징으로 상품을 조회한다
     public List<GetProductResponse> getProductListV3WithPage(String category,int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         return productRepository.getProductListV3WithPage(category,pageRequest.getOffset(),pageRequest.getPageSize()).stream()
@@ -43,7 +81,7 @@ public class ProductService {
             .toList();
     }
 
-    // V3 : 카테코리 + 페이징 + 가격 내림차순 정렬로 상품을 조회한다
+    // V4 : 카테코리 + 페이징 + 가격 내림차순 정렬로 상품을 조회한다
     public List<GetProductResponse> getProductListV4WithPageAndSortPriceDesc(String category, int page, int size) {
 
         PageRequest pageRequest = PageRequest.of(page, size);
@@ -60,7 +98,7 @@ public class ProductService {
             .toList();
     }
 
-    // V4 : 카테코리 + 페이징 + 상품 조건별(name,price,id) 별로 내림차순 정렬
+    // V5 : 카테코리 + 페이징 + 상품 조건별(name,price,id) 별로 내림차순 정렬
     public List<GetProductResponse> getProductListV5WithPageAndSortByCondition(
         String category,
         ProductSortByCondition condition,
