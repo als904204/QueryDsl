@@ -19,7 +19,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
 
-    // 필요한 컬러만 조회해 dto 로 변환한다
+    // 필요한 컬러만 조회
     @Override
     public List<OrderListResponseDto> getOrderListByUserIdV1(Long userId) {
         QUser user = QUser.user;
@@ -35,7 +35,8 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
          *        p.price
          * from tb_order o
          *          join user u on o.user_id = u.id
-         *          join product p on o.product_id = p.id;
+         *          join product p on o.product_id = p.id
+         *          where order.user_id = ?
          */
         JPAQuery<Tuple> query = queryFactory.select(
                 order.id,
@@ -49,6 +50,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
             .join(user).on(order.user.id.eq(userId))
             .join(product).on(order.product.id.eq(product.id))
             .where(order.user.id.eq(userId));
+
 
         return query.fetch().stream()
             .map(tuple -> OrderListResponseDto.builder()
@@ -85,6 +87,6 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom{
             .join(user).on(order.user.id.eq(userId))
             .join(product).on(order.product.id.eq(product.id))
             .where(order.user.id.eq(userId))
-            .fetchJoin().fetch();
+            .fetch();
     }
 }
