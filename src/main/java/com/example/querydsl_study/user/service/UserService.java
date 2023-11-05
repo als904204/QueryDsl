@@ -32,5 +32,8 @@ public class UserService {
             .build();
     }
 
-
+    @Transactional(readOnly = true)
+    public User findUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("유저 없음"));
+    }
 }

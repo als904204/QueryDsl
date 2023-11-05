@@ -4,13 +4,13 @@ import com.example.querydsl_study.product.dto.GetProductResponse;
 import com.example.querydsl_study.product.dto.ProductSortByCondition;
 import com.example.querydsl_study.product.entity.Product;
 import com.example.querydsl_study.product.repository.ProductRepository;
-import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -18,6 +18,11 @@ import org.springframework.stereotype.Service;
 public class ProductService {
 
     private final ProductRepository productRepository;
+
+    @Transactional(readOnly = true)
+    public Product findProductById(Long id) {
+        return productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("상품 없음"));
+    }
 
     // V1 : 모든 상품 조회 OR 카테코리에 해당하는 모든 상품 조회 (객체 자체 조회)
     public List<GetProductResponse> getProductListV1(String category) {
@@ -48,11 +53,11 @@ public class ProductService {
     }
 
 
-    @PostConstruct
+//    @PostConstruct
     public void test() {
         String category = "Category";
 
-        log.info("V1 실행");
+        log.info("getProductListV1.V1 실행");
         long startTimeV1 = System.currentTimeMillis();
         getProductListV1(category);
         long endTimeV1 = System.currentTimeMillis();
@@ -60,7 +65,7 @@ public class ProductService {
 
         System.out.println("==============");
 
-        log.info("V2 실행");
+        log.info("getProductListV1.V2 실행");
         long startTimeV2 = System.currentTimeMillis();
         getProductListV2(category);
         long endTimeV2 = System.currentTimeMillis();
