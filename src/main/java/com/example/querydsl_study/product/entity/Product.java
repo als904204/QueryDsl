@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,14 +24,14 @@ public class Product {
     private String name;
 
     @Column(name = "price")
-    private int price;
+    private Long price;
 
     @Column(name = "category")
     private String category;
 
 
     @Builder
-    public Product(String name, int price, String category) {
+    public Product(String name, Long price, String category) {
         this.name = name;
         this.price = price;
         this.category = category;

@@ -32,9 +32,9 @@ public class ProductService {
     }
 
     // V2 : 카테코리 + 페이징으로 상품을 조회한다
-    public List<GetProductResponse> getProductListV2WithPage(String category,int page, int size) {
+    public List<GetProductResponse> getProductListV3WithPage(String category,int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        return productRepository.getProductListV2WithPage(category,pageRequest.getOffset(),pageRequest.getPageSize()).stream()
+        return productRepository.getProductListV3WithPage(category,pageRequest.getOffset(),pageRequest.getPageSize()).stream()
             .map(m -> GetProductResponse.builder()
                 .name(m.getName())
                 .price(m.getPrice())
@@ -44,11 +44,11 @@ public class ProductService {
     }
 
     // V3 : 카테코리 + 페이징 + 가격 내림차순 정렬로 상품을 조회한다
-    public List<GetProductResponse> getProductListV3WithPageAndSortPriceDesc(String category, int page, int size) {
+    public List<GetProductResponse> getProductListV4WithPageAndSortPriceDesc(String category, int page, int size) {
 
         PageRequest pageRequest = PageRequest.of(page, size);
 
-        return productRepository.getProductListV3WithPageAndSortPriceDesc(category, pageRequest.getOffset(),
+        return productRepository.getProductListV4WithPageAndSortPriceDesc(category, pageRequest.getOffset(),
                 pageRequest.getPageSize())
             .stream()
             .map(m ->
@@ -61,7 +61,7 @@ public class ProductService {
     }
 
     // V4 : 카테코리 + 페이징 + 상품 조건별(name,price,id) 별로 내림차순 정렬
-    public List<GetProductResponse> getProductListV4WithPageAndSortByCondition(
+    public List<GetProductResponse> getProductListV5WithPageAndSortByCondition(
         String category,
         ProductSortByCondition condition,
         int page,
@@ -69,7 +69,7 @@ public class ProductService {
 
         PageRequest pageRequest = PageRequest.of(page, size);
 
-        return productRepository.getProductListV4WithPageAndSortByCondition(category,condition, pageRequest.getOffset(),
+        return productRepository.getProductListV5WithPageAndSortByCondition(category,condition, pageRequest.getOffset(),
                 pageRequest.getPageSize())
             .stream()
             .map(m ->

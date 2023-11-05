@@ -25,7 +25,7 @@ public class ProductController {
         return productService.getProductListV1(category);
     }
 
-    // V1 : 모든 상품 조회 또는 category 상품 조회
+    // V2 : 모든 상품 조회 또는 category 상품 조회
     @GetMapping("/api/v2/product")
     public List<GetProductResponse> getProductListV2(
         @Nullable @RequestParam("category") String category) {
@@ -35,30 +35,30 @@ public class ProductController {
 
     // 저장된 데이터 페이징 조회
     @GetMapping("/api/v3/product")
-    public List<GetProductResponse> getProductListV2WithPage(
+    public List<GetProductResponse> getProductListV3WithPage(
         @Nullable @RequestParam("category") String category,
         @RequestParam("page") int page,
         @RequestParam("size") int size
     ) {
-        return productService.getProductListV2WithPage(category, page, size);
+        return productService.getProductListV3WithPage(category, page, size);
     }
 
     @GetMapping("/api/v4/product")
-    public List<GetProductResponse> getProductListWithV3PageAndSortPriceDesc(
+    public List<GetProductResponse> getProductListWithV5PageAndSortPriceDesc(
         @Nullable @RequestParam("category") String category,
         @RequestParam("page") int page,
         @RequestParam("size") int size) {
         // 페이징 처리 2: 가격 기준 내림차순 정렬된 데이터에 대한 페이징 처리
-        return productService.getProductListV3WithPageAndSortPriceDesc(category, page, size);
+        return productService.getProductListV4WithPageAndSortPriceDesc(category, page, size);
     }
 
     @GetMapping("/api/v5/product")
-    public List<GetProductResponse> getProductListWithV4PageAndSortPriceDesc(
+    public List<GetProductResponse> getProductListWithV5PageAndSortPriceDesc(
         @Nullable @RequestParam(value = "category", required = false) String category,
         @Nullable @RequestParam(required = false) ProductSortByCondition condition,
         @RequestParam("page") int page,
         @RequestParam("size") int size) {
-        return productService.getProductListV4WithPageAndSortByCondition(category, condition, page,
+        return productService.getProductListV5WithPageAndSortByCondition(category, condition, page,
             size);
     }
 
