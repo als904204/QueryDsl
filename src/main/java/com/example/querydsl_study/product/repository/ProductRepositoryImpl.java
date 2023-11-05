@@ -41,7 +41,10 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
     }
 
     /**
-     * SELECT *
+     * SELECT
+     *        product.name,
+     *        product.price
+     *        product.category
      * FROM product
      * WHERE product.category = '?'
      */
@@ -64,7 +67,6 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
                 .category(tuple.get(product.category))
                 .build())
             .toList();
-
     }
 
     @Override
