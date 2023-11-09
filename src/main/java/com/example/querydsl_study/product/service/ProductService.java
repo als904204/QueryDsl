@@ -4,6 +4,7 @@ import com.example.querydsl_study.product.dto.GetProductResponse;
 import com.example.querydsl_study.product.dto.ProductSortByCondition;
 import com.example.querydsl_study.product.entity.Product;
 import com.example.querydsl_study.product.repository.ProductRepository;
+import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -40,37 +41,6 @@ public class ProductService {
         return productRepository.getProductListV2(category);
     }
 
-//    @PostConstruct
-    public void testDats() {
-        log.info("testDats()");
-        List<Product> products = new ArrayList<>();
-        for (int i = 0; i < 100000; i++) {
-            products.add(new Product("Product " + i, 1L, "Category"));
-        }
-        log.info("products.size={}",products.size());
-
-        productRepository.saveAll(products);
-    }
-
-
-//    @PostConstruct
-    public void test() {
-        String category = "Category";
-
-        log.info("getProductListV1.V1 실행");
-        long startTimeV1 = System.currentTimeMillis();
-        getProductListV1(category);
-        long endTimeV1 = System.currentTimeMillis();
-        System.out.println("V1 Method Time: " + (endTimeV1 - startTimeV1) + "ms");
-
-        System.out.println("==============");
-
-        log.info("getProductListV1.V2 실행");
-        long startTimeV2 = System.currentTimeMillis();
-        getProductListV2(category);
-        long endTimeV2 = System.currentTimeMillis();
-        System.out.println("V2 Method Time: " + (endTimeV2 - startTimeV2) + "ms");
-    }
 
 
 

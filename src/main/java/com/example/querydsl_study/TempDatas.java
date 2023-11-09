@@ -8,11 +8,14 @@ import com.example.querydsl_study.product.service.ProductService;
 import com.example.querydsl_study.user.entity.User;
 import com.example.querydsl_study.user.repository.UserRepository;
 import com.example.querydsl_study.user.service.UserService;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TempDatas {
@@ -23,8 +26,20 @@ public class TempDatas {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
 
+//    @PostConstruct
+    public void testProductDatas() {
+        log.info("testDats()");
+        List<Product> products = new ArrayList<>();
+        for (int i = 0; i < 100000; i++) {
+            products.add(new Product("Product " + i, 1L, "Category"));
+        }
+        log.info("products.size={}",products.size());
 
-    public void tempDatas() {
+        productRepository.saveAll(products);
+    }
+
+//    @PostConstruct
+    public void testOrderDatas() {
         User saveUser = User.builder()
             .name("user1")
             .email("email")

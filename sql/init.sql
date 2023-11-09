@@ -21,7 +21,6 @@ CREATE TABLE IF NOT EXISTS `order` (
 );
 
 INSERT INTO user (name, address, email) VALUES ('침팬지', '욱욱악악', 'email1@example.com');
-INSERT INTO user (name, address, email) VALUES ('고릴라', '끾끾', 'go@example.com');
 
 -- 한식
 INSERT INTO product (name, price, category) VALUES ('불고기', 15000, '한식');
